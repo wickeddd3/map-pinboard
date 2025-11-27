@@ -1,3 +1,4 @@
+import { ChevronDown, ChevronUp } from "lucide-react";
 import React, { createContext, useContext, useMemo, useState } from "react";
 
 type AccordionContextValue = {
@@ -96,16 +97,7 @@ export function AccordionItem({
           className="flex w-full items-center justify-between py-3 text-left cursor-pointer"
         >
           <span className="font-medium">{header}</span>
-          <svg
-            className={`h-4 w-4 transform transition-transform duration-200 ${
-              isOpen ? "rotate-180" : "rotate-0"
-            }`}
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" />
-          </svg>
+          {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </button>
       </h3>
 
