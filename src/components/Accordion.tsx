@@ -75,6 +75,7 @@ export type AccordionItemProps = {
   color?: string;
   position: Coordinates;
   onClick?: () => void;
+  onRemove?: () => void;
 };
 
 const colorMap: Record<string, string> = {
@@ -94,6 +95,7 @@ export function AccordionItem({
   color,
   position,
   onClick,
+  onRemove,
 }: AccordionItemProps) {
   const ctx = useContext(AccordionContext);
   if (!ctx) throw new Error("AccordionItem must be used within <Accordion>.");
@@ -138,7 +140,8 @@ export function AccordionItem({
               className="px-4 cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
-                alert(`Delete action for item ${id}`);
+                // alert(`You are about to delete Pin #${id}`);
+                onRemove?.();
               }}
             >
               <Trash size={18} className="text-red-500" />

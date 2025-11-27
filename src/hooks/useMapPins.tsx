@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export function useMapPins() {
   const API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
   const MAP_ID = import.meta.env.VITE_GOOGLE_MAP_ID;
@@ -5,7 +7,7 @@ export function useMapPins() {
   const zoom = 13;
   const defaultStyle = { width: "100vw", height: "100vh" };
 
-  const pinList = [
+  const [pinList, setPinList] = useState([
     {
       id: "1",
       name: "Pin #1",
@@ -72,7 +74,11 @@ export function useMapPins() {
       icon: `./truck-icon-6.svg`,
       color: "purple",
     },
-  ];
+  ]);
+
+  const removePin = (id: string) => {
+    setPinList((prev) => prev.filter((pin) => pin.id !== id));
+  };
 
   return {
     API_KEY,
@@ -81,5 +87,6 @@ export function useMapPins() {
     zoom,
     defaultStyle,
     pinList,
+    removePin,
   };
 }

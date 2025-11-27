@@ -1,3 +1,4 @@
+import { useMapPins } from "../hooks/useMapPins";
 import type { Pin } from "../types/pin";
 import { Accordion, AccordionItem } from "./Accordion";
 import { Calendar, MapPin, Smartphone, type LucideIcon } from "lucide-react";
@@ -25,18 +26,19 @@ export const MapPinDetailItem = ({
 };
 
 export interface MapPinsProps {
-  pins: Pin[];
   onSelectPin?: (pin: Pin) => void;
 }
 
-export const MapPins = ({ pins, onSelectPin }: MapPinsProps) => {
+export const MapPins = ({ onSelectPin }: MapPinsProps) => {
+  const { pinList, removePin } = useMapPins();
+
   return (
     <div className="absolute w-96 h-9/10 top-18 left-6 bg-white shadow-lg z-10 rounded-lg">
       <h1 className="p-4  border-b border-gray-200 text-xl font-medium">
         Pin Lists
       </h1>
       <Accordion type="single" className="divide-y-0 divide-gray-200 px-4">
-        {pins.map((pin) => (
+        {pinList.map((pin) => (
           <AccordionItem
             key={pin.id}
             id={pin.id}
@@ -44,6 +46,7 @@ export const MapPins = ({ pins, onSelectPin }: MapPinsProps) => {
             color={pin.color}
             position={pin.position}
             onClick={() => onSelectPin?.(pin)}
+            onRemove={() => removePin(pin.id)}
           >
             <div className="flex flex-col items-start gap-3">
               {/* Current Location */}
