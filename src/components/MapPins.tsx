@@ -4,6 +4,7 @@ import type { Pin } from "../types/pin";
 import { Accordion, AccordionItem } from "./Accordion";
 import { Calendar, MapPin, Smartphone, type LucideIcon } from "lucide-react";
 import { PinListEmpty } from "./PinListEmpty";
+import { PinListLoading } from "./PinListLoading";
 
 export interface MapPinDetailItemProps {
   icon: LucideIcon;
@@ -32,7 +33,7 @@ export interface MapPinsProps {
 }
 
 export const MapPins = ({ onSelectPin }: MapPinsProps) => {
-  const { pinList, removePin } = useMapPins();
+  const { loading, pinList, removePin } = useMapPins();
   const hasPinList = useMemo(() => pinList && pinList.length > 0, [pinList]);
 
   return (
@@ -40,7 +41,9 @@ export const MapPins = ({ onSelectPin }: MapPinsProps) => {
       <h1 className="p-4  border-b border-gray-200 text-xl font-medium">
         Pin Lists
       </h1>
-      {hasPinList && (
+      {loading && <PinListLoading />}
+
+      {!loading && hasPinList && (
         <Accordion type="single" className="divide-y-0 divide-gray-200 px-4">
           {pinList.map((pin) => (
             <AccordionItem
@@ -77,7 +80,7 @@ export const MapPins = ({ onSelectPin }: MapPinsProps) => {
         </Accordion>
       )}
 
-      {!hasPinList && <PinListEmpty />}
+      {!loading && !hasPinList && <PinListEmpty />}
     </div>
   );
 };
