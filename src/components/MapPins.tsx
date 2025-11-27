@@ -1,10 +1,32 @@
 import type { Pin } from "../types/pin";
 import { Accordion, AccordionItem } from "./Accordion";
-import { Calendar, MapPin, Smartphone } from "lucide-react";
+import { Calendar, MapPin, Smartphone, type LucideIcon } from "lucide-react";
 
 export interface MapPinsProps {
   pins: Pin[];
 }
+
+export interface MapPinDetailItemProps {
+  icon: LucideIcon;
+  title: string;
+  subtitle: string;
+}
+
+export const MapPinDetailItem = ({
+  icon: Icon,
+  title,
+  subtitle,
+}: MapPinDetailItemProps) => {
+  return (
+    <div className="flex items-start gap-3">
+      <Icon className="text-gray-400 mt-2" />
+      <div className="flex flex-col">
+        <span className="font-medium text-gray-900">{title}</span>
+        <span className="text-gray-500">{subtitle}</span>
+      </div>
+    </div>
+  );
+};
 
 export const MapPins = ({ pins }: MapPinsProps) => {
   return (
@@ -23,37 +45,23 @@ export const MapPins = ({ pins }: MapPinsProps) => {
           >
             <div className="flex flex-col items-start gap-3">
               {/* Current Location */}
-              <div className="flex items-start gap-3">
-                <MapPin size={20} className="text-gray-400 mt-2" />
-                <div className="flex flex-col">
-                  <span className="font-medium text-gray-900">
-                    Current location
-                  </span>
-                  <span className="text-gray-500">{pin.location}</span>
-                </div>
-              </div>
+              <MapPinDetailItem
+                icon={MapPin}
+                title="Current location"
+                subtitle={pin.location}
+              />
               {/* Recent update */}
-              <div className="flex items-start gap-3">
-                <Calendar size={20} className="text-gray-400 mt-2" />
-                <div className="flex flex-col">
-                  <span className="font-medium text-gray-900">
-                    Recent update date
-                  </span>
-                  <span className="text-gray-500"> Nov 17, 2025</span>
-                </div>
-              </div>
+              <MapPinDetailItem
+                icon={Calendar}
+                title="Recent update date"
+                subtitle="Nov 17, 2025"
+              />
               {/* Connected devices */}
-              <div className="flex items-start gap-3">
-                <Smartphone size={20} className="text-gray-400 mt-2" />
-                <div className="flex flex-col">
-                  <span className="font-medium text-gray-900">
-                    Connected devices
-                  </span>
-                  <span className="text-gray-500">
-                    Great place for dinner meetings
-                  </span>
-                </div>
-              </div>
+              <MapPinDetailItem
+                icon={Smartphone}
+                title="Connected devices"
+                subtitle="Great place for dinner meetings"
+              />{" "}
             </div>
           </AccordionItem>
         ))}
