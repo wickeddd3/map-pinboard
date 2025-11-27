@@ -43,16 +43,14 @@ export const MapBoard = ({
           <h1 className="p-4  border-b border-gray-200 text-xl font-medium">
             Pin Lists
           </h1>
-          <Accordion
-            type="multiple"
-            className="divide-y-0 divide-gray-200 px-4"
-          >
+          <Accordion type="single" className="divide-y-0 divide-gray-200 px-4">
             {pins.map((pin) => (
               <AccordionItem
                 key={pin.id}
                 id={pin.id}
                 header={pin.name}
                 color={pin.color}
+                position={pin.position}
               >
                 <div className="flex flex-col items-start gap-3">
                   {/* Current Location */}

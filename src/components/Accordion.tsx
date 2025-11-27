@@ -1,5 +1,7 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, MapPin, Trash } from "lucide-react";
 import React, { createContext, useContext, useMemo, useState } from "react";
+import type { Coordinates } from "../types/pin";
+import { formatCoordinates } from "../utils/format";
 
 type AccordionContextValue = {
   type: "single" | "multiple";
@@ -71,15 +73,16 @@ export type AccordionItemProps = {
   children: React.ReactNode;
   className?: string;
   color?: string;
+  position: Coordinates;
 };
 
 const colorMap: Record<string, string> = {
-  indigo: "bg-indigo-300 text-indigo-700 border-indigo-100",
-  pink: "bg-pink-300 text-pink-700 border-pink-100",
-  green: "bg-green-300 text-green-700 border-green-100",
-  yellow: "bg-yellow-300 text-yellow-700 border-yellow-100",
-  cyan: "bg-cyan-300 text-cyan-700 border-cyan-100",
-  purple: "bg-purple-300 text-purple-700 border-purple-100",
+  indigo: "bg-indigo-200 text-indigo-600 border-indigo-100",
+  pink: "bg-pink-200 text-pink-600 border-pink-100",
+  green: "bg-green-200 text-green-600 border-green-100",
+  yellow: "bg-yellow-200 text-yellow-600 border-yellow-100",
+  cyan: "bg-cyan-200 text-cyan-600 border-cyan-100",
+  purple: "bg-purple-200 text-purple-600 border-purple-100",
 };
 
 export function AccordionItem({
@@ -88,6 +91,7 @@ export function AccordionItem({
   children,
   className,
   color,
+  position,
 }: AccordionItemProps) {
   const ctx = useContext(AccordionContext);
   if (!ctx) throw new Error("AccordionItem must be used within <Accordion>.");
@@ -100,27 +104,46 @@ export function AccordionItem({
   return (
     <div className={className}>
       <h3 className="border-b border-gray-200">
-        <button
+        <div
           id={buttonId}
           aria-controls={panelId}
           aria-expanded={isOpen}
           onClick={() => toggleItem(id)}
           className="flex w-full items-center justify-between py-3 text-left cursor-pointer"
         >
-          <div className="flex gap-2 items-center">
-            <span
-              className={`w-12 h-12 rounded-full border-6 ${
-                color
-                  ? colorMap[color]
-                  : "bg-gray-500 text-gray-500 border-gray-300"
-              } flex items-center justify-center font-bold`}
+          <div className="w-full flex items-center justify-between">
+            <div className="flex gap-4 items-center">
+              <span
+                className={`w-12 h-12 rounded-full border-6 ${
+                  color
+                    ? colorMap[color]
+                    : "bg-gray-500 text-gray-500 border-gray-300"
+                } flex items-center justify-center font-bold`}
+              >
+                #{id}
+              </span>
+              <div className="flex flex-col">
+                <span className="font-medium">{header}</span>
+                <div className="flex items-center gap-2">
+                  <MapPin size={14} className="text-gray-500" />
+                  <span className="text-sm text-gray-500">
+                    {formatCoordinates(position)}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button
+              className="px-4 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                alert(`Delete action for item ${id}`);
+              }}
             >
-              #{id}
-            </span>
-            <span className="font-medium">{header}</span>
+              <Trash size={18} className="text-red-500" />
+            </button>
           </div>
           {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-        </button>
+        </div>
       </h3>
 
       {/* Animated panel: height auto with measuring for smooth transitions */}
