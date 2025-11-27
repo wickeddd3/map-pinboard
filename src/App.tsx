@@ -2,8 +2,8 @@ import { Map } from "lucide-react";
 import { MapBoard } from "./components/MapBoard";
 
 export const App = () => {
-  const API_KEY = "AIzaSyBD5TrQav71dTwbBv94eshooVWUAIFIggE";
-  const MAP_ID = "4e043537ea9cf2c8";
+  const API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
+  const MAP_ID = import.meta.env.VITE_GOOGLE_MAP_ID;
   const position = { lat: -37.8323, lng: 144.948823 };
   const zoom = 13;
   const defaultStyle = { width: "100vw", height: "100vh" };
