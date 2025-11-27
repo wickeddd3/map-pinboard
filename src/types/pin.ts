@@ -9,4 +9,5 @@ export interface Pin {
   location: string;
   position: Coordinates;
   icon: string;
+  color: string;
 }

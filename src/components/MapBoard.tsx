@@ -39,10 +39,21 @@ export const MapBoard = ({
             </AdvancedMarker>
           ))}
 
-        <div className="absolute w-96 h-9/10 top-18 left-6 bg-white shadow-lg  p-2 z-10 rounded-lg">
-          <Accordion type="multiple" className="divide-y">
+        <div className="absolute w-96 h-9/10 top-18 left-6 bg-white shadow-lg z-10 rounded-lg">
+          <h1 className="p-4  border-b border-gray-200 text-xl font-medium">
+            Pin Lists
+          </h1>
+          <Accordion
+            type="multiple"
+            className="divide-y-0 divide-gray-200 px-4"
+          >
             {pins.map((pin) => (
-              <AccordionItem key={pin.id} id={pin.id} header={pin.name}>
+              <AccordionItem
+                key={pin.id}
+                id={pin.id}
+                header={pin.name}
+                color={pin.color}
+              >
                 <div className="flex flex-col items-start gap-3">
                   {/* Current Location */}
                   <div className="flex items-start gap-3">

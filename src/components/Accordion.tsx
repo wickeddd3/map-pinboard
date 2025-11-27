@@ -70,6 +70,16 @@ export type AccordionItemProps = {
   header: React.ReactNode;
   children: React.ReactNode;
   className?: string;
+  color?: string;
+};
+
+const colorMap: Record<string, string> = {
+  indigo: "bg-indigo-300 text-indigo-700 border-indigo-100",
+  pink: "bg-pink-300 text-pink-700 border-pink-100",
+  green: "bg-green-300 text-green-700 border-green-100",
+  yellow: "bg-yellow-300 text-yellow-700 border-yellow-100",
+  cyan: "bg-cyan-300 text-cyan-700 border-cyan-100",
+  purple: "bg-purple-300 text-purple-700 border-purple-100",
 };
 
 export function AccordionItem({
@@ -77,6 +87,7 @@ export function AccordionItem({
   header,
   children,
   className,
+  color,
 }: AccordionItemProps) {
   const ctx = useContext(AccordionContext);
   if (!ctx) throw new Error("AccordionItem must be used within <Accordion>.");
@@ -96,7 +107,18 @@ export function AccordionItem({
           onClick={() => toggleItem(id)}
           className="flex w-full items-center justify-between py-3 text-left cursor-pointer"
         >
-          <span className="font-medium">{header}</span>
+          <div className="flex gap-2 items-center">
+            <span
+              className={`w-12 h-12 rounded-full border-6 ${
+                color
+                  ? colorMap[color]
+                  : "bg-gray-500 text-gray-500 border-gray-300"
+              } flex items-center justify-center font-bold`}
+            >
+              #{id}
+            </span>
+            <span className="font-medium">{header}</span>
+          </div>
           {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </button>
       </h3>
