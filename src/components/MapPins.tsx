@@ -2,10 +2,6 @@ import type { Pin } from "../types/pin";
 import { Accordion, AccordionItem } from "./Accordion";
 import { Calendar, MapPin, Smartphone, type LucideIcon } from "lucide-react";
 
-export interface MapPinsProps {
-  pins: Pin[];
-}
-
 export interface MapPinDetailItemProps {
   icon: LucideIcon;
   title: string;
@@ -28,7 +24,12 @@ export const MapPinDetailItem = ({
   );
 };
 
-export const MapPins = ({ pins }: MapPinsProps) => {
+export interface MapPinsProps {
+  pins: Pin[];
+  onSelectPin?: (pin: Pin) => void;
+}
+
+export const MapPins = ({ pins, onSelectPin }: MapPinsProps) => {
   return (
     <div className="absolute w-96 h-9/10 top-18 left-6 bg-white shadow-lg z-10 rounded-lg">
       <h1 className="p-4  border-b border-gray-200 text-xl font-medium">
@@ -42,6 +43,7 @@ export const MapPins = ({ pins }: MapPinsProps) => {
             header={pin.name}
             color={pin.color}
             position={pin.position}
+            onClick={() => onSelectPin?.(pin)}
           >
             <div className="flex flex-col items-start gap-3">
               {/* Current Location */}

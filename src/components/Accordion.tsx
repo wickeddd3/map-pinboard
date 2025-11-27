@@ -74,6 +74,7 @@ export type AccordionItemProps = {
   className?: string;
   color?: string;
   position: Coordinates;
+  onClick?: () => void;
 };
 
 const colorMap: Record<string, string> = {
@@ -92,6 +93,7 @@ export function AccordionItem({
   className,
   color,
   position,
+  onClick,
 }: AccordionItemProps) {
   const ctx = useContext(AccordionContext);
   if (!ctx) throw new Error("AccordionItem must be used within <Accordion>.");
@@ -103,7 +105,7 @@ export function AccordionItem({
 
   return (
     <div className={className}>
-      <h3 className="border-b border-gray-200">
+      <h3 className="border-b border-gray-200" onClick={onClick}>
         <div
           id={buttonId}
           aria-controls={panelId}
