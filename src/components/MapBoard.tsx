@@ -4,45 +4,32 @@ import {
   AdvancedMarker,
   InfoWindow,
 } from "@vis.gl/react-google-maps";
-import type { Coordinates, Pin } from "../types/pin";
+import type { Pin } from "../types/pin";
 import { MapPins } from "./MapPins";
 import { useState } from "react";
 import { formatCoordinates } from "../utils/format";
 import { MapPin } from "lucide-react";
+import { useMapPins } from "../hooks/useMapPins";
 
-export interface MapBoardProps {
-  apiKey: string;
-  mapId: string;
-  position: Coordinates;
-  zoom: number;
-  defaultStyle?: React.CSSProperties;
-  pins?: Pin[];
-}
-
-export const MapBoard = ({
-  apiKey,
-  mapId,
-  position,
-  zoom,
-  defaultStyle,
-  pins = [],
-}: MapBoardProps) => {
+export const MapBoard = () => {
+  const { API_KEY, MAP_ID, position, zoom, defaultStyle, pinList } =
+    useMapPins();
   const [selectedPin, setSelectedPin] = useState<Pin | null>(null);
 
   return (
-    <APIProvider apiKey={apiKey} libraries={["places"]}>
+    <APIProvider apiKey={API_KEY} libraries={["places"]}>
       <div className="w-full h-full">
         <Map
           style={defaultStyle}
           defaultCenter={position}
           zoom={zoom}
-          mapId={mapId}
+          mapId={MAP_ID}
           gestureHandling="greedy"
           disableDefaultUI
         />
 
-        {pins &&
-          pins.map((pin) => (
+        {pinList &&
+          pinList.map((pin) => (
             <AdvancedMarker
               key={pin.id}
               position={pin.position}
@@ -71,7 +58,7 @@ export const MapBoard = ({
           </InfoWindow>
         )}
 
-        <MapPins pins={pins} onSelectPin={setSelectedPin} />
+        <MapPins onSelectPin={setSelectedPin} />
       </div>
     </APIProvider>
   );
